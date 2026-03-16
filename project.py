@@ -1,10 +1,14 @@
 import os
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+from typing import TYPE_CHECKING
 
 from pdf2image import convert_from_path
 from PIL import Image
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
+
+if TYPE_CHECKING:
+    from PyPDF2._page import PageObject
 
 
 class PdfUtilityApp:
@@ -200,7 +204,7 @@ class PdfUtilityApp:
                 with Image.open(image_path) as img:
                     converted = img.convert("RGB")
                     converted.load()
-                    images.append(converted)
+                images.append(converted)
             first_image, remaining_images = images[0], images[1:]
             first_image.save(output_path, save_all=True, append_images=remaining_images)
         except Exception as exc:  # pragma: no cover - GUI messaging
@@ -320,7 +324,7 @@ class PdfUtilityApp:
         messagebox.showinfo("Success", "PDF pages were rotated.")
 
     @staticmethod
-    def _rotate_page(page, rotation: int) -> object:
+    def _rotate_page(page, rotation: int) -> "PageObject":
         """Support multiple PyPDF2 rotation APIs across versions."""
         if hasattr(page, "rotate"):
             return page.rotate(rotation)
