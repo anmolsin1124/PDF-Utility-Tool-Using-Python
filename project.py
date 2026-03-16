@@ -324,7 +324,7 @@ class PdfUtilityApp:
         messagebox.showinfo("Success", "PDF pages were rotated.")
 
     @staticmethod
-    def _rotate_page(page, rotation: int) -> "PageObject":
+    def _rotate_page(page: "PageObject", rotation: int) -> "PageObject":
         """Support multiple PyPDF2 rotation APIs across versions."""
         if hasattr(page, "rotate"):
             return page.rotate(rotation)
