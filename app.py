@@ -170,13 +170,14 @@ def merge_pdfs_tool():
             try:
                 # Core logic: use PdfMerger to merge files (same as original)
                 merger = PdfMerger()
+                try:
+                    for uploaded_pdf in uploaded_pdfs:
+                        merger.append(uploaded_pdf)
 
-                for uploaded_pdf in uploaded_pdfs:
-                    merger.append(uploaded_pdf)
-
-                merged_buffer = io.BytesIO()
-                merger.write(merged_buffer)
-                merger.close()
+                    merged_buffer = io.BytesIO()
+                    merger.write(merged_buffer)
+                finally:
+                    merger.close()
                 merged_buffer.seek(0)
 
                 st.success("PDF files merged successfully!")
