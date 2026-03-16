@@ -198,7 +198,9 @@ class PdfUtilityApp:
             images = []
             for image_path in image_paths:
                 with Image.open(image_path) as img:
-                    images.append(img.convert("RGB").copy())
+                    converted = img.convert("RGB")
+                    converted.load()
+                    images.append(converted)
             first_image, remaining_images = images[0], images[1:]
             first_image.save(output_path, save_all=True, append_images=remaining_images)
         except Exception as exc:  # pragma: no cover - GUI messaging
@@ -318,7 +320,7 @@ class PdfUtilityApp:
         messagebox.showinfo("Success", "PDF pages were rotated.")
 
     @staticmethod
-    def _rotate_page(page, rotation: int):
+    def _rotate_page(page, rotation: int) -> object:
         """Support multiple PyPDF2 rotation APIs across versions."""
         if hasattr(page, "rotate"):
             return page.rotate(rotation)
