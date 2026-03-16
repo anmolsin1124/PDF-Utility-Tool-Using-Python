@@ -113,9 +113,9 @@ def images_to_pdf_tool():
                 # Core logic: open images and convert to RGB (same as original)
                 images = []
                 for uploaded_img in uploaded_images:
-                    img = Image.open(uploaded_img)
-                    img = img.convert("RGB")
-                    images.append(img)
+                    img_bytes = uploaded_img.getvalue()
+                    with Image.open(io.BytesIO(img_bytes)) as img:
+                        images.append(img.convert("RGB"))
 
                 # Core logic: save first image with remaining appended (same as original)
                 first_img = images[0]
