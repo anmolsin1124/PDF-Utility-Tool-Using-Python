@@ -117,10 +117,6 @@ def images_to_pdf_tool():
                     img = img.convert("RGB")
                     images.append(img)
 
-                if len(images) == 0:
-                    st.error("No images uploaded.")
-                    return
-
                 # Core logic: save first image with remaining appended (same as original)
                 first_img = images[0]
                 other_img = []
